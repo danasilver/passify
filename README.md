@@ -10,7 +10,7 @@ A ridiculously simple password validator.
 	* Color thresholds
 	* Password class names
 
-### What it will do (because life is a work in progress)
+### What it will do soon
 
 * Check if the password meets YOUR needs
 * Check if the password matches the "confirm password" field
@@ -26,17 +26,4 @@ A ridiculously simple password validator.
 2. Change the CONFIG values
 	a. Change `"PASSWORD_CLASS"` and `"PASSWORD_CONFIRM_CLASS"` if your inputs have different class names
 	b. Change any other values you deem unfit for your product
-3. Include the Javascript file in your .html, .jade, or .supercoolnewmarkup page
-4. Move on
-
-<script type="text/javascript" src="passify.js"></script>
-<link rel="stylesheet" type="text/css" href="tests/tests.css">
-<style>
-	.password {
-		border-radius: 5px;
-	}
-</style>
-
-## Try it out
-
-<input type="password" class="password">
+3. Include the Javascript file in your page (i.e. html) along with the form
