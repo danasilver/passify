@@ -1,0 +1,17 @@
+body {
+	padding: 10px;
+}
+
+form {
+	font-size: 20px;
+}
+
+.password {
+	border: 1px solid black;
+	height: 20px;
+	width: 100px;
+}
+
+.password:focus {
+	outline: none;
+}
