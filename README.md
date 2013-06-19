@@ -29,3 +29,14 @@ A ridiculously simple password validator.
 3. Include the Javascript file in your .html, .jade, or .supercoolnewmarkup page
 4. Move on
 
+<script type="text/javascript" src="passify.js"></script>
+<link rel="stylesheet" type="text/css" href="tests/tests.css">
+<style>
+	.password {
+		border-radius: 5px;
+	}
+</style>
+
+## Try it out
+
+<input type="password" class="password">
