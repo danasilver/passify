@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Passify
 =======
 A ridiculously simple password validator.
@@ -29,9 +28,4 @@ A ridiculously simple password validator.
 	b. Change any other values you deem unfit for your product
 3. Include the Javascript file in your .html, .jade, or .supercoolnewmarkup page
 4. Move on
-=======
-passify
-=======
 
-A ridiculously simple password validator and strength indicator
->>>>>>> 09a663c37a10c7fa8f5843edc7b987dfac7355ad
