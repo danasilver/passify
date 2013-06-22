@@ -1,4 +1,4 @@
-–-Passify
+Passify
 =======
 A ridiculously simple password validator.
 
@@ -22,8 +22,8 @@ A ridiculously simple password validator.
 
 ## Installation
 
-1. Download `passify.js`
+1. Download `passify.js` and the latest [jQuery](http://jquery.com/download/) build.
 2. Change the CONFIG values
 	a. Change `"PASSWORD_CLASS"` and `"PASSWORD_CONFIRM_CLASS"` if your inputs have different class names
 	b. Change any other values you deem unfit for your product
-3. Include the Javascript file in your page (i.e. html) along with the form
+3. Include the Javascript files (`passify.js` and jQuery) in your page (i.e. html) along with the form
