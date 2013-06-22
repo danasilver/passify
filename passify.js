@@ -18,83 +18,53 @@ var Patterns = {
 	alphaLow: "abcdefghijklmnopqrstuvwxyz",
 	alphaUp: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 	nums: "0123456789",
-	special: "~`!@#$%^&*-_+={}[]|\\:;'<>,./?"
+	special: "~`!@#$%^&*-_+={}[]|\\:;'<>,./\"?"
 }
 
 var Thresholds = {
-	dark_red: .19,
-	red: .39,
-	yellow: .59,
-	green: .79,
-	dark_green: 1
+	dark_red: .25,
+	red: .50,
+	dark_green: .75,
+	green: 1
 }
-
-// Count with one function, determine which pattern here
-// function whichPattern () {
-
-// }
+/** END CONFIG **/
 
 function checkPasswordStrength (password) {
-	if (computeStrength(password) <= Thresholds.dark_red) {
+	var strength = computeStrength(password),
+		dark_red = Thresholds.dark_red,
+		red = Thresholds.red,
+		dark_green = Thresholds.dark_green,
+		green = Thresholds.green;
+
+	if ((strength >= 0) && (strength <= dark_red)) {
 		changeColor(PASSWORD_CLASS, "dark_red");
 	}
-	else if (computeStrength(password) <= Thresholds.red) {
+	if ((strength > Thresholds.dark_red) && (strength <= red)) {
 		changeColor(PASSWORD_CLASS, "red");
 	}
-	else if (computeStrength(password) <= Thresholds.yellow) {
-		changeColor(PASSWORD_CLASS, "yellow");
-	}
-	else if (computeStrength(password) <= Thresholds.green) {
-		changeColor(PASSWORD_CLASS, "green");
-	}
-	else {
+	if ((strength > red) && (strength <= dark_green)) {
 		changeColor(PASSWORD_CLASS, "dark_green");
 	}
+	if ((strength > dark_green) && (strength <= green)) {
+		changeColor(PASSWORD_CLASS, "green");
+	}
 }
 
-/** Compute Strength **/
 function computeStrength (password) {
-	var strength = countOccurances("alphaLow", password)*Strength.alphaLow;
-	strength += countOccurances("alphaUp", password)*Strength.alphaUp;
-	strength += countOccurances("nums", password)*Strength.nums;
-	strength += countOccurances("special", password)*Strength.special;
-
-	if (!anyAlphaLows(password) && !anyAlphaUps(password) && !anyNums(password) && !anySpecials(password)) {
-		return strength;
+	var calcStrength = 0,
+		maxStrength = totalPatterns(password) / 4;
+	for (key in Patterns) {
+		calcStrength += Strength[key]*countOccurances(key.toString(), password);
 	}
-	else if ((anyAlphaLows(password) || anyAlphaUps(password)) && (!anyNums(password) && !anySpecials(password))) {
-		if (strength < .4) {
-			return strength;
-		}
-		else {
-			return .39;
-		}
-	}
-	else if ((anyAlphaLows(password) || anyAlphaUps(password)) && (anyNums(password) && !anySpecials(password))) {
-		if (strength < .6) {
-			return strength;
-		}
-		else {
-			return .59;
-		}
-	}
-	else if ((anyAlphaLows(password) || anyAlphaUps(password)) && (anyNums(password) && anySpecials(password))) {
-		if (strength <= 1) {
-			return strength;
-		}
-		else {
-			return 1;
-		}
-	}
+	return Math.min(calcStrength, maxStrength);
 }
 
-/** Count Occurances of Patterns **/
 function countOccurances (pattern, password) {
 	var count = 0,
 		patternArray = [];
 	for (key in Patterns) {
 		if (key.toString() === pattern) {
-			patternArray = Patterns[key.toString()].split("");
+			patternArray = Patterns[key].split("");
 		}
 	}
 	for (var i=0; i < password.length; i++) {
@@ -105,24 +75,16 @@ function countOccurances (pattern, password) {
 	return count;
 }
 
-/** Check for a single occurance of a pattern **/
-function anyAlphaLows (password) {
-	return countOccurances("alphaLow", password) != 0;
+function totalPatterns (password) {
+	var count = 0;
+	for (key in Patterns) {
+		if (countOccurances(key.toString(), password) != 0) {
+			count ++;
+		}
+	}
+	return count;
 }
 
-function anyAlphaUps (password) {
-	return countOccurances("alphaUp", password) != 0;
-}
-
-function anyNums (password) {
-	return countOccurances("nums", password) != 0;
-}
-
-function anySpecials (password) {
-	return countOccurances("special", password) != 0;
-}
-
-/** Update Color **/
 function changeColor(pickClass, color) {
 	if (color === "dark_red") {
 		$(pickClass).css({backgroundColor: "rgba(153, 0, 0, .4)", border: "1px solid rgba(153, 0, 0, 1)"});
@@ -131,13 +93,10 @@ function changeColor(pickClass, color) {
 		$(pickClass).css({backgroundColor: "rgba(208, 0, 0, .4)", border: "1px solid rgba(208, 0, 0, 1)"});
 	}
 	else if (color === "green") {
-		$(pickClass).css({backgroundColor: "rgba(153, 0, 0, .4)", border: "1px solid rgba(153, 0, 0, 1)"});
+		$(pickClass).css({backgroundColor: "rgba(41, 245, 34, .4)", border: "1px solid rgba(41, 245, 34, 1)"});
 	}
 	else if (color === "dark_green") {
 		$(pickClass).css({backgroundColor: "rgba(1, 223, 1, .4)", border: "1px solid rgba(1, 223, 1, 1)"});
-	}
-	else if (color === "yellow") {
-		$(pickClass).css({backgroundColor: "rgba(255, 255, 0, .4)", border: "1px solid rgba(255, 255, 0, 1)"});
 	}
 }
 

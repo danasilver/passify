@@ -1,4 +1,4 @@
-Passify
+–-Passify
 =======
 A ridiculously simple password validator.
 
