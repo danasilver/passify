@@ -10,7 +10,7 @@ var PASSWORD_CONFIRM_CLASS = ".password-confirm";
 var Strength = {
 	alphaLow: .1,
 	alphaUp: .15,
-	num: .2,
+	nums: .2,
 	special: .25
 }
 
@@ -54,10 +54,10 @@ function checkPasswordStrength (password) {
 
 /** Compute Strength **/
 function computeStrength (password) {
-	var strength = countAlphaLows(password)*Strength.alphaLow;
-	strength += countAlphaUps(password)*Strength.alphaUp;
-	strength += countNums(password)*Strength.num;
-	strength += countSpecials(password)*Strength.special;
+	var strength = countOccurances("alphaLow", password)*Strength.alphaLow;
+	strength += countOccurances("alphaUp", password)*Strength.alphaUp;
+	strength += countOccurances("nums", password)*Strength.nums;
+	strength += countOccurances("special", password)*Strength.special;
 
 	if (!anyAlphaLows(password) && !anyAlphaUps(password) && !anyNums(password) && !anySpecials(password)) {
 		return strength;
@@ -89,44 +89,16 @@ function computeStrength (password) {
 }
 
 /** Count Occurances of Patterns **/
-function countAlphaLows (password) {
+function countOccurances (pattern, password) {
 	var count = 0,
-		alphaLowArray = Patterns.alphaLow.split("");
-	for (var i=0; i < password.length; i++) {
-		if (jQuery.inArray(password.charAt(i), alphaLowArray) != -1) {
-			count ++;
+		patternArray = [];
+	for (key in Patterns) {
+		if (key.toString() === pattern) {
+			patternArray = Patterns[key.toString()].split("");
 		}
 	}
-	return count;
-}
-
-function countAlphaUps (password) {
-	var count = 0,
-		alphaUpArray = Patterns.alphaUp.split("");
 	for (var i=0; i < password.length; i++) {
-		if (jQuery.inArray(password.charAt(i), alphaUpArray) != -1) {
-			count ++;
-		}
-	}
-	return count;
-}
-
-function countNums (password) {
-	var count = 0,
-		numArray = Patterns.nums.split("");
-	for (var i=0; i < password.length; i++) {
-		if (jQuery.inArray(password.charAt(i), numArray) != -1) {
-			count ++;
-		}
-	}
-	return count;
-}
-
-function countSpecials (password) {
-	var count = 0,
-		specialArray = Patterns.special.split("");
-	for (var i=0; i < password.length; i++) {
-		if (jQuery.inArray(password.charAt(i), specialArray) != -1) {
+		if (jQuery.inArray(password.charAt(i), patternArray) != -1) {
 			count ++;
 		}
 	}
@@ -135,19 +107,19 @@ function countSpecials (password) {
 
 /** Check for a single occurance of a pattern **/
 function anyAlphaLows (password) {
-	return countAlphaLows(password) != 0;
+	return countOccurances("alphaLow", password) != 0;
 }
 
 function anyAlphaUps (password) {
-	return countAlphaUps(password) != 0;
+	return countOccurances("alphaUp", password) != 0;
 }
 
 function anyNums (password) {
-	return countNums(password) != 0;
+	return countOccurances("nums", password) != 0;
 }
 
 function anySpecials (password) {
-	return countSpecials(password) != 0;
+	return countOccurances("special", password) != 0;
 }
 
 /** Update Color **/
